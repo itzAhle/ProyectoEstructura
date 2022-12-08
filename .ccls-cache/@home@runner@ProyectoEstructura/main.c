@@ -23,7 +23,9 @@ int main() {
     case 3:
     printf("[3] Reproducir\n");
     break;
-    case 4:
+    case 4: break; 
+      default: 
+    break;
     
   }
 
