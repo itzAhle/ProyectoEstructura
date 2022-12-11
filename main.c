@@ -147,8 +147,6 @@ void genero (){
       printf("Reproducir una cancion\n");
     }
 }
-
-
 void salir() {
   exit(1); 
 }
