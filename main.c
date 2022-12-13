@@ -15,7 +15,7 @@ void salir();
 
 int num; //variable para seleccionar Menús
 char opc; //variable para seleccionar opciones dentro del menú 
-
+/*
 int main() {
   setlocale(LC_ALL, "spanish");
   
@@ -23,7 +23,7 @@ int main() {
   menuPrincipal(); 
   
 }
-
+*/
 
 void menuPrincipal(){
   // Menu de inicio
