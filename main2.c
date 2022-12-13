@@ -162,7 +162,7 @@ int main() {
                songs[i].genre);
         printf("\n\n");
     }
-*/ //Codigo feo
+*/ //Codigo feooooooo
 
 
     setlocale(LC_ALL, "spanish"); 
