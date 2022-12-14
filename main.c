@@ -25,6 +25,15 @@ int main() {
 }
 */
 
+//Nota: por alguna razon si usaba letras en los menus el programa se cerra, por lo que las opciones las cambie a numeros en lo que se resuelve el problema -Jonathan
+
+int main(){
+
+  menuPrincipal();
+  
+}
+
+
 void menuPrincipal(){
   // Menu de inicio
   printf("Spotify UV\n");
@@ -40,7 +49,9 @@ void menuPrincipal(){
     break;
   case 2:
     //printf("[2] Explorar Canciones\n");
-    explorarCanciones(); 
+    explorarCanciones(0,0); 
+    //cancinf();
+    
     break;
   case 3: 
     reproductor(); 
@@ -74,24 +85,40 @@ system("cls");
   }
   }
 
+//variables en las que se asigna el numero de elementos que se mostraran
+//en pantalla -Jonathan
 
-void explorarCanciones() {
+int r1=0,r2=0;
+
+void explorarCanciones(int ini,int fin) {
   fflush(stdin); 
   system("cls"); 
+
+  cancinf(ini,fin);
+  
   printf("[P] Regresar al menú principal\n"
     "[A] 10 Canciones anteriores\n"
     "[D] 10 canciones siguientes\n"
     "[Q] Agregar a la cola una canción de la lista\n"
     "[R] Reproducir una canción\n\n");
+  
   printf("Seleccione una opción: "); 
-  scanf("%c", &opc); 
+  scanf("%i", &num); 
 
-  switch(opc) {
-    case 'p': system("cls"); menuPrincipal(); system("pause"); break; //Simula las funciones
-    case 'a': printf("[A] 10 Canciones anteriores\n"); break;             //por el momento
-    case 'd': printf("[D] 10 Canciones siguientes\n"); break; 
-    case 'q': printf("[Q] Agregar a la cola una canción de la lista"); break; 
-    case 'r': printf("[R] Reproducir una canción"); break; 
+  switch(num) {
+    case 1: system("cls"); menuPrincipal(); system("pause"); break;//Regresa al menu
+    case 2: printf("[A] 10 Canciones anteriores\n"); //Retrocede a las 10 canciones anteriores
+      r1=r1-10;
+      r2=r2-10;
+      explorarCanciones(r1,r2);
+      break;          
+    case 3: printf("[D] 10 Canciones siguientes\n");//Avanza a las 10 canciones siguientes
+      r1=r1+10;
+      r2=r2+10;
+      explorarCanciones(r1,r2);
+      break; 
+    case 4: printf("[Q] Agregar a la cola una canción de la lista"); break; 
+    case 5: printf("[R] Reproducir una canción"); break; 
   
   }
 }
