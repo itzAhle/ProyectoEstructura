@@ -9,9 +9,9 @@
 #include <stdbool.h>
 //Este solo contiene las funciones para agregar a la lista y 
 //las colas a partir del struct que lee el archivo csv
-//Quitar comas al csv y columnas
 
-int n;
+
+int n, m;
 
 void imprimcola();
 
