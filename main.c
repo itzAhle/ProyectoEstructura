@@ -9,12 +9,14 @@ void explorargeneros ();
 //Expplorar caciones 
 void explorarCanciones(); 
 
+
 void reproductor(); 
 void Genero ();
 void salir(); 
 
 int num; //variable para seleccionar Menús
 char opc; //variable para seleccionar opciones dentro del menú 
+int can;
 /*
 int main() {
   setlocale(LC_ALL, "spanish");
@@ -45,7 +47,9 @@ void menuPrincipal(){
   switch (num) {
   case 1:
     //printf("[1] Explora Generos\n");
+    
     explorargeneros(); 
+    
     break;
   case 2:
     //printf("[2] Explorar Canciones\n");
@@ -67,6 +71,9 @@ void menuPrincipal(){
 void explorargeneros (){
 fflush(stdin); 
 system("cls");
+
+  genee();
+  
   printf("[P] Regresar al menu\n");
   printf("[1...n] Selecionar un genero\n");
   printf("Selecione una opcion: ");
@@ -90,7 +97,7 @@ system("cls");
 
 int r1=0,r2=0;
 
-void explorarCanciones(int ini,int fin) {
+void explorarCanciones(int ini,int fin) {//Jonathan-Alejandro
   fflush(stdin); 
   system("cls"); 
 
@@ -117,7 +124,19 @@ void explorarCanciones(int ini,int fin) {
       r2=r2+10;
       explorarCanciones(r1,r2);
       break; 
-    case 4: printf("[Q] Agregar a la cola una canción de la lista"); break; 
+    case 4: printf("[Q] Agregar a la cola una canción de la lista\n");
+
+      printf("Digite el numero de cancion que desea agregar\n");
+
+      scanf("%i",&can);
+      
+      breachcanc(can);
+
+      //imprimcola();
+      
+       menuPrincipal(); system("pause");
+      
+      break; 
     case 5: printf("[R] Reproducir una canción"); break; 
   
   }
@@ -128,6 +147,10 @@ void reproductor() {
   system("cls"); 
   printf("Reproductor\n\n"); 
   printf("Actualmente sonando: \n\n\n\n"); 
+
+  //Aqui ira la funcion para ver la lista de repro
+  imprimcola();
+  
   printf("[P] Regresr al menú principal\n"
     "[A] Canción anterior\n"
     "[D] Siguiente canción\n"

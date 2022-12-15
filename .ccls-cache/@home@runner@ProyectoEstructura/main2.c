@@ -6,10 +6,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
-
+#include <stdbool.h>
 //Este solo contiene las funciones para agregar a la lista y 
 //las colas a partir del struct que lee el archivo csv
 //Quitar comas al csv y columnas
+
+int n;
+
+void imprimcola();
+
 
 //Va a dar error porque hay dos archivos con funcion main
 typedef struct { //Estructura guardada a partir del CSV
@@ -28,18 +33,26 @@ typedef struct nodo { //Estructura para la lista
   struct nodo *sig;
 }listaTrack; 
 
-//--- Estructuras y funciones para la cola
-typedef struct elemento {
+typedef struct gene { //Estructura para la lista
+  char *tr_gen;
+  struct nodo *sig;
+}gene; 
+gene gen[100]; 
+
+//--- Estructuras y funciones para la cola 
+typedef struct elemento {    //Esta es la cola de la lista de reproduccion
   char *trackName; 
   char *artistName; 
   struct elemento *sig; 
 }elemento;
 
-elemento *inicio = NULL;
+elemento *inicio = NULL; // ps ya estos son los punteros qe van al inicio yba l final
 elemento *fin = NULL; 
 
-void agregarACola (elemento * elem) { //Alejandro
-  elem -> sig = NULL; 
+
+void agregarACola (elemento * elem) { //Alejandro - Jeremy
+  printf("Aqui tambien entra a AgregarCola\n");
+  elem -> sig = NULL;  //Este inicializa los elementos, o sea hace que la cola funcione como tal 
   if (inicio == NULL) {
     inicio = elem;
     fin = elem; 
@@ -50,31 +63,74 @@ void agregarACola (elemento * elem) { //Alejandro
 }
 
 elemento * extraer () { // Alejandro
-  if (inicio == NULL) {
-    return NULL; 
+  if (inicio == NULL) { //este se relaciona con la anterior, pero digamos que solo 
+    return NULL;  //devuelve el NULL en caso de que esté vacía 
   }
 
-  elemento * elem = inicio; 
+  printf("Entra a extraer\n");
+  
+  elemento * elem = inicio;  //y ps aqui ya manda los elementos al final de la cola
   inicio = inicio -> sig; 
   return elem; 
 }
 
-void agregarCancionCola (trackInfo songs[], int n) { // Alejandro
+void impcol();
+
+void agregarCancionCola (trackInfo songs[], int n) { // Alejandro  - Jeremy .En esta funcion toma como parametro la estructura con la info de las canciones, el int n servirá como el parametro para decidir que cancion elegida se agregará a la cola, tomando en cuenta que ya podemos hacerlo desde el menú. 
   elemento * nuevaCancion = (elemento *) malloc(sizeof(elemento));
-  nuevaCancion -> trackName = songs[n].trackName;
-  nuevaCancion -> trackName = songs[n].artistName;
-  agregarACola(nuevaCancion);
+  nuevaCancion -> trackName = songs[n].trackName;  //Se agregan los valores de songs[] a 
+                                                   //nuevacancion. sunombre y artista. 
+  
+  
+  nuevaCancion -> artistName = songs[n].artistName; //artista, es decir las dos info que                                                           //necesitamos mostrar en el reproductor
+
+  
+  printf("Si entra a la funcion\n");
+ 
+  
+  agregarACola(nuevaCancion); //está es importante porque agrega la informacion de arriba directamente al final de la cola. Es decir, esta hace la chamba. 
+    imprimcola();
+  }
+
+// Y para usar la funcion sería 
+/*
+agregarCancionCola(songs, 6);   funcion(estructura, cancion elegida); 
+
+  elemento * di = extraer(); //inicializa la funcion extraer, sirve para poder                                     imprimir los elementos de la cola
+
+  while (di != NULL) {  desde aqui 
+    printf("'%s'\n%s\n\n", di -> trackName, di -> artistName); 
+    di = di -> sig; //Siempre debe llevar esto que apunte al siguiente porque sino va a imprimir infinitamente. y yap. 
+  } 
+
+Imprime los elementos de la cola 
+
+*/
+
+/*void imprep(){
+  imprimirCanciones(elemento,1,0);
+}*/
+
+void impcol(){
+  
+  elemento * di = extraer(); //inicializa la funcion extraer, sirve para poder                                     imprimir los elementos de la cola
+
+  while (di != NULL) { // desde aqui 
+    printf("'%s'\n%s\n\n", di -> trackName, di -> artistName); 
+    di = di -> sig; //Siempre debe llevar esto que apunte al siguiente porque sino va a imprimir infinitamente. y yap. 
+  } 
 }
+
 
 //---- Funciones para la lista
 
-listaTrack * listaCancion(listaTrack * lista) { // Alejandro
+listaTrack *listaCancion(listaTrack * lista) { // Alejandro
   lista = NULL; 
   return lista;
 }
 
 listaTrack *agregarTrack (listaTrack * lista, trackInfo songs[]) {
-  listaTrack * nuevoTrack, *aux;   //Funcion para agregar varias canciones, no está terminada - Alejandro
+  listaTrack * nuevoTrack, *aux;   //Funcion para agregar varias canciones, - Jeremy - Alejandro
   for(int i = 0; i < 10; ++i) {
     nuevoTrack = (listaTrack *) malloc (sizeof (listaTrack)); 
     nuevoTrack -> trackName = songs[i].trackName; 
@@ -96,7 +152,7 @@ listaTrack *agregarTrack (listaTrack * lista, trackInfo songs[]) {
 
 listaTrack *agregarTrackUnico (listaTrack *lista, trackInfo songs[]) {
   listaTrack *nuevoTrack, * aux; //Esta funcion puede tomar como parametro un entero para seleccionar la cancion desde el menú de canciones, 
-  nuevoTrack = (listaTrack *) malloc (sizeof (listaTrack)); //no está terminada - Alejandro
+  nuevoTrack = (listaTrack *) malloc (sizeof (listaTrack)); // Alejandro - Jeremy
   nuevoTrack -> trackName = songs[2].trackName; 
   nuevoTrack -> artistName = songs[2].artistName; 
   nuevoTrack -> sig = NULL;
@@ -113,14 +169,35 @@ listaTrack *agregarTrackUnico (listaTrack *lista, trackInfo songs[]) {
   return lista;   
 }
 
+//void breachcanc(int num);
+
+void breachcanc(int num){
+
+  n=num;
+  
+  agregarCancionCola(songs,n);
+  
+}
+
 //---Defincion de algunas funciones 
-void printValues (trackInfo songs[],int elm);
+void printValues (trackInfo songs[]);
 void imprimirCanciones (trackInfo songs[],int elmi,int elmf);
+void genee();
 void elegirCancion (trackInfo songs[]); //No está terminada, ta complica
 
 //Esto era un main pero lo transforme en un void para mandar a llamar la info de las canciones en el main original-Jonathan
 
-void cancinf(int avr,int avr2) { // - Alejandro - Jonathan
+void opnf(){
+  setlocale(LC_ALL, "spanish"); 
+    FILE *file;
+    file = fopen("feeling2.csv", "r"); //Voy a cambiar archivo de las canciones
+
+    if (!file) {
+        printf("Error");
+    }
+}
+
+void cancinf(int avr,int avr2) { // - Alejandro - Jonathan - Jeremy
     
     setlocale(LC_ALL, "spanish"); 
     FILE *file;
@@ -177,7 +254,7 @@ void cancinf(int avr,int avr2) { // - Alejandro - Jonathan
   
   //printValues(songs,cont); //Estas dos hacen dos cosas diferentes pero no me acuerdo
   imprimirCanciones(songs,cont2,cont); 
-
+  }
   //No se para que servian pero si son necesarias vuelvan a ponerlas -Jonathan
   
   /*
@@ -186,7 +263,7 @@ void cancinf(int avr,int avr2) { // - Alejandro - Jonathan
   lista = agregarTrack(lista, songs); 
   lista = agregarTrackUnico(lista, son
 
-  /*
+  
   while (lista != NULL) { //imprime la informacion que se agregó a la lista
     printf("'%s'\n%s\n\n", lista -> trackName, lista -> artistName);
     lista = lista -> sig; 
@@ -203,26 +280,27 @@ void cancinf(int avr,int avr2) { // - Alejandro - Jonathan
   }
 
   printf("\n\n%s", songs[1].duration);*/
-}
+
 
  //La información de las canciones ya está en el arreglo de estructuras
-void printValues (trackInfo songs[],int elm) { // - Alejandro - Jonathan
-    for (int i = 0; i < elm; ++i) {
-        printf("Cancion: %s\n"
+void printValues (trackInfo songs[]) { // - Alejandro - Jonathan
+    for (int i = 0; i < sizeof(songs); ++i) {
+        printf(//"Cancion: %s\n"
                "Album: %s\n"
-               "Artista: %s\n"
-               "Duracion:  %s\n"
-               "Genero: %s\n",
-               songs[i].trackName,
-               songs[i].albumName,
-               songs[i].artistName,
-               songs[i].duration,
-               songs[i].genre);
+               //"Artista: %s\n"
+               //"Duracion:  %s\n"
+               //"Genero: %s\n",
+               //songs[i].trackName,
+               ,songs[i].albumName
+               //songs[i].artistName,
+               //songs[i].duration,
+               //songs[i].genre
+          );
         printf("\n");
     }
 }
 
-void imprimirCanciones(trackInfo songs[],int elmi,int elmf) { // Alejandro - Jonathan
+void imprimirCanciones(trackInfo songs[],int elmi,int elmf) {// Alejandro - Jonathan
   
   printf("Canción\nArtista\n\n");
   for (int i = elmi; i < elmf; ++i) {
@@ -230,3 +308,37 @@ void imprimirCanciones(trackInfo songs[],int elmi,int elmf) { // Alejandro - Jon
       songs[i].artistName);
   }
 }
+
+
+// Para el menú de generos y canciones por generos
+void imprimirGeneros(trackInfo songs[] /*Otro parametro aqui */) { //Alejandro - Jeremy
+  for (int i = 0; i < 10; ++i) {
+    printf("[%d] -> %s", i, songs[i].trackName); 
+  }
+}
+
+void imprimcola(){ //Alejandro - Jeremy
+  
+  elemento * di = extraer(); //inicializa la funcion extraer, sirve para poder                                     imprimir los elementos de la cola
+
+  while (di != NULL) {  //desde aqui 
+    printf("'%s'\n%s\n\n", di -> trackName, di -> artistName); 
+    di = di -> sig; //Siempre debe llevar esto que apunte al siguiente porque sino va a imprimir infinitamente. y yap. 
+  } 
+}
+
+//int seleccionGenero(){}
+
+void genee(){
+
+  opnf();
+
+  
+
+  printValues(songs);
+  
+}
+
+/*void verGeneroSeleccionado(trackInfo songs[]) {
+  while(songs[1].genre == songs[]){}
+}*/
